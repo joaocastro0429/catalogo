@@ -8,7 +8,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['catalogo-imav.onrender.com']
 
@@ -54,8 +54,6 @@ TEMPLATES = [
 
 
 # Configuração do banco de dados (usando dj_database_url)
-import os
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -66,6 +64,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+
 
 
 ROOT_URLCONF = 'cursos.urls'
