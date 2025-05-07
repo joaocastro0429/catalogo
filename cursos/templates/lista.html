@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Cursos{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">📚 Cursos</h2>
+    <a href="{% url 'criar_cursos' %}" class="btn btn-success btn-lg shadow-sm">
+        <i class="bi bi-plus-circle me-2"></i> Cadastrar Curso
+    </a>
+</div>
+
+<div class="row">
+    {% for curso in cursos %}
+    <div class="card mb-4">
+        {% if curso.imagem %}
+            <img src="{{ curso.imagem.url }}" class="card-img-top" alt="Imagem do curso">
+        {% else %}
+            <img src="/static/default.jpg" class="card-img-top" alt="Imagem padrão do curso">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ curso.nome }}</h5>
+            <p class="card-text">{{ curso.descricao|truncatewords:20 }}</p>
+            <a href="{% url 'detalhes_curso' curso.id %}" class="btn btn-outline-primary">Ver Detalhes</a>
+            <form action="{% url 'excluir_curso' curso.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+        </div>
+    </div>
+    
+    {% empty %}
+    <p class="text-muted">Nenhum curso cadastrado ainda.</p>
+    {% endfor %}
+</div>
+{% endblock %}

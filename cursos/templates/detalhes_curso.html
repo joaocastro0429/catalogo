@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ curso.nome }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+    {% if curso.imagem %}
+    <img src="{{ curso.imagem.url }}" class="card-img-top" alt="{{ curso.nome }}">
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title">{{ curso.nome }}</h2>
+      <p><strong>Professor:</strong> {{ curso.professor }}</p>
+      <p class="card-text">{{ curso.descricao }}</p>
+      <a href="{% url 'lista_cursos' %}" class="btn btn-secondary mt-2">Voltar</a>
+    </div>
+  </div>
+{% endblock %}
