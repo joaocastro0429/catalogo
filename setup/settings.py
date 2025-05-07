@@ -54,16 +54,19 @@ TEMPLATES = [
 
 
 # Configuração do banco de dados (usando dj_database_url)
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  "cursos",
-        'USER':"postgres",
-        'PASSWORD': "root",
-        'HOST':  "localhost",
-        'PORT':  "5432",
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+
 
 ROOT_URLCONF = 'cursos.urls'
 
