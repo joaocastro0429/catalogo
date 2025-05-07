@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
-ALLOWED_HOSTS = ['catalogo-imav.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['catalogo-imav.onrender.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,20 +54,16 @@ TEMPLATES = [
 
 
 # Configuração do banco de dados (usando dj_database_url)
-import os
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME':  "cursos",
+        'USER':"postgres",
+        'PASSWORD': "root",
+        'HOST':  "localhost",
+        'PORT':  "5432",
     }
 }
-
 
 ROOT_URLCONF = 'cursos.urls'
 
