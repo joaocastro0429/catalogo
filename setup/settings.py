@@ -8,10 +8,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['catalogo-imav.onrender.com']
-
+ALLOWED_HOSTS = ["*"]  # apenas temporariamente para debug, nunca deixe isso em produção real
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
