@@ -1,16 +1,23 @@
-import os
 from pathlib import Path
 from dotenv import load_dotenv
+import os
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
+# Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Chave secreta do Django
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = True
 
-ALLOWED_HOSTS = ["*"]  # apenas temporariamente para debug, nunca deixe isso em produção real
+# Ativar modo debug (deixe como False em produção)
+DEBUG = os.getenv("DEBUG", "True") == "True"
+
+# Hosts permitidos
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+
+# Aplicativos instalados
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -19,13 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cursos',
-   
 ]
 
-
-
+# Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve arquivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -34,11 +40,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -51,31 +57,35 @@ TEMPLATES = [
     },
 ]
 
-
-# Configuração do banco de dados (usando dj_database_url)
+# Banco de dados (PostgreSQL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cursos',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST", "localhost"),
+        'PORT': os.getenv("DB_PORT", "5432"),
     }
 }
 
-
-
-
-ROOT_URLCONF = 'cursos.urls'
+# Arquivos de mídia (upload de imagens, etc.)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+ROOT_URLCONF = 'setup.urls'
 
 # Arquivos estáticos
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Arquivos de mídia (opcional)
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
-# WhiteNoise para arquivos estáticos em produção
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Idioma e fuso horário
+LANGUAGE_CODE = 'pt-br'
+TIME_ZONE = 'America/Sao_Paulo'
+USE_I18N = True
+USE_TZ = True
+
+# Configurações padrão
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

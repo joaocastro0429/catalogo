@@ -14,8 +14,8 @@
     {% for curso in cursos %}
     <div class="card mb-4">
         {% if curso.imagem %}
-            <img src="{{ curso.imagem.url }}" class="card-img-top" alt="Imagem do curso">
-        {% else %}
+        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+         {% else %}
             <img src="/static/default.jpg" class="card-img-top" alt="Imagem padrão do curso">
         {% endif %}
         <div class="card-body">
